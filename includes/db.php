@@ -1,9 +1,9 @@
 <?php
     //Database connection
 
-    $db['db_host'] = "62.108.40.88";
-    $db['db_user'] = "admin";
-    $db['db_password'] = "123mafijaX";
+    $db['db_host'] = "127.0.0.1";
+    $db['db_user'] = "root";
+    $db['db_password'] = "";
     $db['db_name'] = "cms";
 
 

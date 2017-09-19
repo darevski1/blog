@@ -1,4 +1,7 @@
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<?php
+session_start();
+
+?><nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -8,7 +11,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Start Bootstrap</a>
+            <a class="navbar-brand" href="index.php">CMS FRONT</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -24,11 +27,17 @@
 
             ?>
 
-
-
                 <li>
-                    <a href="admin">Admin</a>
+                    <a href="admin">Admwin</a>
                 </li>
+                <?php
+                    if (isset($_SESSION['username'])){
+                        if (isset($_GET['p_id'])){
+                            $post_id = $_GET['p_id'];
+                                echo "<li><a href='admin/posts.php?source=edit_post&p_id={$post_id}'>Edit Post</a></li>";
+                        }
+                    }
+                ?>
             </ul>
         </div>
         <!-- /.navbar-collapse -->

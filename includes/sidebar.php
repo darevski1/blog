@@ -15,7 +15,21 @@
         </form><!--Search Form-->
         <!-- /.input-group -->
     </div>
-
+    <div class="well">
+        <h4>Blog Search</h4>
+        <form action="includes/login.php" method="post">
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input type="text" name="password" class="form-control" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" name="login" type="submit">Submit</button>
+            </div>
+        </form><!--Search Form-->
+        <!-- /.input-group -->
+    </div>
 
     <!-- Blog Categories Well -->
 
@@ -30,7 +44,9 @@
 
                     while ($row = mysqli_fetch_assoc($select_categories_sidebar)){
                         $cat_title =  $row['cat_title'];
-                        echo "<li><a href='#'>{$cat_title}</a></li>";
+                        $cat_id =  $row['cat_id'];
+
+                        echo "<li><a href='category.php?category=$cat_id'>{$cat_title}</a></li>";
                     }
                     ?>
                 </ul>

@@ -18,21 +18,21 @@
             <a href="categories.php"><i class="fa fa-fw fa-wrench"></i>Categories </a>
         </li>
         <li class="active">
-            <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Comments</a>
+            <a href="comments.php"><i class="fa fa-fw fa-file"></i> Comments</a>
         </li>
         <li>
             <a href="javascript:;" data-toggle="collapse" data-target="#users"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="users" class="collapse">
                 <li>
-                    <a href="#">View all posts</a>
+                    <a href="./users.php">View all Users</a>
                 </li>
                 <li>
-                    <a href="#">Add Post</a>
+                    <a href="./users.php?source=add_user">Add User</a>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i>Profile</a>
+            <a href="./profile.php"><i class="fa fa-fw fa-dashboard"></i>Profile</a>
         </li>
     </ul>
 </div>

@@ -7,24 +7,30 @@
         $post_date = date("d-m-y");
         $post_status = $_POST['post_status'];
 
-
         $post_image = $_FILES['image']['name'];
         $post_image_temp = $_FILES['image']['tmp_name'];
 
 
         $post_content = $_POST['post_content'];
         $post_tags = $_POST['post_tags'];
-        $post_comment_count = 4;
+//        $post_comment_count = 0;
 
         move_uploaded_file($post_image_temp, "../images/$post_image");
 
-        $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_comment_count, post_status)";
-        $query .= "VALUES('{$post_category_id}', '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_comment_count}','{$post_status}')";
+        $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status)";
+        $query .= "VALUES('{$post_category_id}', '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}')";
 
         $insert_query=mysqli_query($connection, $query);
 
-//        Calling function
-        confirm($insert_query);
+        $the_post_id = mysqli_insert_id($connection);
+
+        if($insert_query){
+            echo "<div class=\"alert alert-success\">
+                      <strong>Success! </strong>New post created!!!!! View the <a href='../post.php?p_id=$the_post_id'>The Post</a> or <a href='posts.php'>View More Posts</a></a>
+                    </div>";
+        }else{
+            die("Erorrr" . mysqli_error($connection));
+        }
     }
 
 
@@ -37,9 +43,23 @@
         <input type="text" name="post_title" class="form-control">
     </div>
     <div class="form-group">
-        <label for="post_category_id">Category Id</label>
-        <input type="text" name="post_category_id" class="form-control">
+        <select name="post_category_id" id="" class="form-control">
+            <?php
+            $query = "SELECT * from categories ";
+            $select_query = mysqli_query($connection, $query);
+
+            confirm($select_query);
+
+            while ($row = mysqli_fetch_assoc($select_query)) {
+                $cat_id = $row['cat_id'];
+                $cat_title = $row['cat_title'];
+
+                echo "<option value='{$cat_id}'>{$cat_title}</option>";
+            }
+            ?>
+        </select>
     </div>
+
     <div class="form-group">
         <label for="post_author">Author</label>
         <input type="text" name="post_author" class="form-control">
@@ -51,6 +71,14 @@
     <div class="form-group">
         <label for="post_author">Tags</label>
         <input type="text" name="post_tags" class="form-control">
+    </div>
+    <div class="form-group">
+        <select name="post_status" id=""  class="form-control">
+            <option value="draft">Select Option</option>
+            <option value="published">published</option>
+            <option value="draft">draft</option>
+
+        </select>
     </div>
     <div class="form-group">
         <textarea name="post_content" class="form-control" cols="30" rows="10"></textarea>
