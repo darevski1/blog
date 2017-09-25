@@ -2,7 +2,6 @@
 <?php include "../includes/db.php";?>
 
     <div id="wrapper">
-
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -33,6 +32,7 @@
                             Blank Pagewsw
                             <small><?php echo $_SESSION['username'];?></small>
                         </h1>
+
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="index.php">Dashboard</a>

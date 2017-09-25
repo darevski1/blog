@@ -19,7 +19,6 @@ $(document).ready(function(){
 
 
 
-
 $(document).ready(function(){
     var div_box = "<div id='load-screen'><div id='loading'></div></div>";
 
@@ -31,3 +30,17 @@ $(document).ready(function(){
 
 
 });
+
+
+function loadUsersOnline(){
+    $.get("function.php?onLineusers=resault", function(data){
+            $(".usersonline").text(data);
+        });
+
+}
+setInterval(function () {
+    loadUsersOnline();
+}, 500);
+
+
+loadUsersOnline();

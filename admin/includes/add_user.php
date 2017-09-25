@@ -21,7 +21,7 @@
         $row = mysqli_fetch_array($select_randsalt_query);
         $salt = $row['randSalt'];
 
-        $user_password = crypt($user_password, $salt);
+        $user_password = password_hash($user_password, PASSWORD_BCRYPT, array('cost' => 12));
 
         $query = "INSERT INTO users(user_firstname, user_lastname, user_image, user_role, username, user_email, user_password)";
         $query .= "VALUES('{$user_firstname}', '{$user_lastname}', '{$user_image}', '{$user_role}', '{$username}', '{$user_email}', '{$user_password}')";
@@ -30,8 +30,8 @@
 
         if ($inset_query){
             echo "<div class=\"alert alert-success\">
-  <strong>Success!</strong> New users has been created!!!.
-</div>";
+              <strong>Success!</strong> New users has been created!!!.
+            </div>";
         }else{
             echo "dick";
         }

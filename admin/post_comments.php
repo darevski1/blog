@@ -1,3 +1,12 @@
+<?php include "../includes/db.php";?>
+<?php include "../includes/header.php";?>
+
+<!-- Navigation -->
+<?php include "../includes/navigation.php";?>
+
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
 <?php
 if (isset($_POST['change_comments'])){
     $selectOption = $_POST['bulk_options'];
@@ -48,8 +57,9 @@ if (isset($_POST['change_comments'])){
     </thead>
     <tbody>
     <?php
-    $query = "SELECT * from comments";
+    $query = "SELECT * from comments WHERE comment_post_id =" .mysqli_real_escape_string($connection, $_GET['id'])."";
     $select_posts = mysqli_query($connection, $query);
+
 
     while($row = mysqli_fetch_assoc($select_posts)){
         $comment_id = $row['comment_id'];
@@ -110,3 +120,13 @@ if (isset($_POST['change_comments'])){
     </tbody>
 </table>
 </form>
+    </div>
+
+</div>
+<!-- /.row -->
+
+<hr>
+
+<?php include "../includes/footer.php";?>
+
+

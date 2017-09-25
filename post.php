@@ -9,16 +9,12 @@
     <div class="row">
         <!-- Blog Entries Column -->
         <div class="col-md-8">
-            <h1 class="page-header">
-                Page Heading
-                <small>Secondary Text</small>
-            </h1>
             <?php
             if(isset($_GET['p_id'])) {
                 $the_post_id = $_GET['p_id'];
 
-            $view_query = "UPDATE POSTS set post_view_count = post_view_count + 1 WHERE post_id = $the_post_id";
-            $send_query = mysqli_query($connection, $view_query);
+//            $view_query = "UPDATE POSTS set post_view_count = post_view_count + 1 WHERE post_id = $the_post_id";
+//            $send_query = mysqli_query($connection, $view_query);
 
             $query = "SELECT * FROM posts WHERE post_id = $the_post_id";
             $query_resault = mysqli_query($connection, $query);
