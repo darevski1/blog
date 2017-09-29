@@ -16,7 +16,7 @@
 
             }
 
-            $query = "SELECT * FROM posts WHERE post_author = '{$the_post_author}'";
+            $query = "SELECT * FROM posts WHERE post_user = '{$the_post_author}'";
             $query_resault = mysqli_query($connection, $query);
 
 
@@ -24,7 +24,7 @@
                 $the_post_id = $row['post_id'];
                 $post_category_id = $row['post_category_id'];
                 $post_title = $row['post_title'];
-                $post_author = $row['post_author'];
+                $post_author = $row['post_user'];
                 $post_date = $row['post_date'];
                 $post_image = $row['post_image'];
                 $post_content = $row['post_content'];
@@ -40,7 +40,7 @@
                     <a href="post.php?p_id=<?php echo  $the_post_id;?>"><?php echo $post_title?></a>
                 </h2>
                 <p class="lead">
-                    View All post by. <?php echo $post_author;?>
+                    <?php echo $post_author;?>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on August <?php echo $post_date; ?></p>
                 <hr>

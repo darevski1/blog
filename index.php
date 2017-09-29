@@ -26,11 +26,17 @@
         }else{
             $page_1 = ($page * $per_page) - $per_page;
         }
+        if (isset($_SESSION['user_role']) && $_SESSION['user_role'] = 'admin'){
+            $post_query_count = "SELECT * FROM posts";
+        }else{
+            $post_query_count = "SELECT * FROM posts WHERE post_status = 'published'";
+        }
 
-        $post_query_count = "SELECT * FROM posts ";
         $find_count = mysqli_query($connection, $post_query_count);
         $count  = mysqli_num_rows($find_count);
-
+            if ($count < 1){
+                echo "<h1 class='text-center'>No posts available</h1>";
+            }else{
         $count = ceil($count / $per_page);
 
 
@@ -40,13 +46,12 @@
         while($row = mysqli_fetch_assoc($select_all_posts_query)) {
             $post_id = $row['post_id'];
             $post_title = $row["post_title"];
-            $post_author = $row["post_author"];
+            $post_author = $row["post_user"];
             $post_date = $row["post_date"];
             $post_image = $row["post_image"];
             $post_content = substr($row["post_content"],0,100);
             $post_status = $row["post_status"];
 
-            if($post_status == 'published') {
                 ?>
 
                 <!-- HTML/PHP for displaying POSTS -->
@@ -54,7 +59,7 @@
                     <a href="post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a>
                 </h2>
                 <p class="lead">
-                    by <a href="index.php"><?php echo $post_author ?></a>
+                    by <a href="author_post.php?author=<?php echo $post_author;?>&p_id=<?php echo $post_id;?>"><?php echo $post_author;?></a>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?></p>
                 <hr>

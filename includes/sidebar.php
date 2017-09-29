@@ -4,19 +4,24 @@
     <div class="well">
         <h4>Blog Search</h4>
         <form action="search.php" method="post">
-        <div class="input-group">
-            <input type="text" name="search" class="form-control">
-            <span class="input-group-btn">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control">
+                <span class="input-group-btn">
                 <button class="btn btn-default" name="submit" type="submit">
                   <span class="glyphicon glyphicon-search"></span>
                 </button>
              </span>
-        </div>
+            </div>
         </form><!--Search Form-->
         <!-- /.input-group -->
     </div>
+
     <div class="well">
-        <h4>Blog Search</h4>
+        <?php if (isset($_SESSION['user_role'])): ?>
+            <h3 class="text-center" >You are logged in as: <?php echo $_SESSION['username']; ?></h3>
+            <a href="includes/logout.php" class="btn btn-success">Log Out</a>
+        <?php else: ?>
+        <h4>Login</h4>
         <form action="includes/login.php" method="post">
             <div class="form-group">
                 <input type="text" name="username" class="form-control" placeholder="Username">
@@ -25,11 +30,13 @@
                 <input type="text" name="password" class="form-control" placeholder="Password">
             </div>
             <div class="form-group">
-                <button class="btn btn-primary" name="login" type="submit">Submit</button>
+                <button class="btn btn-primary" name="login" type="submit">Submsit</button>
             </div>
         </form><!--Search Form-->
+        <?php endif; ?>
         <!-- /.input-group -->
     </div>
+
 
     <!-- Blog Categories Well -->
 
@@ -39,12 +46,12 @@
             <div class="col-lg-6">
                 <ul class="list-unstyled">
                     <?php
-                    $query = "SELECT * FROM categories LIMIT 2";
+                    $query = "SELECT * FROM categories";
                     $select_categories_sidebar = mysqli_query($connection, $query);
 
-                    while ($row = mysqli_fetch_assoc($select_categories_sidebar)){
-                        $cat_title =  $row['cat_title'];
-                        $cat_id =  $row['cat_id'];
+                    while ($row = mysqli_fetch_assoc($select_categories_sidebar)) {
+                        $cat_title = $row['cat_title'];
+                        $cat_id = $row['cat_id'];
 
                         echo "<li><a href='category.php?category=$cat_id'>{$cat_title}</a></li>";
                     }
@@ -60,7 +67,8 @@
     <!-- Side Widget Well -->
     <div class="well">
         <h4>Side Widget Well</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus
+            laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
     </div>
 
 </div>

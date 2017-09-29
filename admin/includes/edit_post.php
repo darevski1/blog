@@ -7,7 +7,7 @@ $select_query = mysqli_query($connection, $query);
 
 while ($row = mysqli_fetch_assoc($select_query)) {
     $post_id = $row['post_id'];
-    $post_author = $row['post_author'];
+    $post_user = $row['post_user'];
     $post_title = $row['post_title'];
     $post_category_id = $row['post_category_id'];
     $post_status = $row['post_status'];
@@ -21,7 +21,7 @@ while ($row = mysqli_fetch_assoc($select_query)) {
 
     if (isset($_POST['update_post'])) {
 
-        $post_author = $_POST['post_author'];
+        $post_user = $_POST['post_user'];
         $post_title = $_POST['post_title'];
         $post_category_id = $_POST['post_category_id'];
 
@@ -47,7 +47,7 @@ while ($row = mysqli_fetch_assoc($select_query)) {
             $query .= "post_title = '{$post_title}', ";
             $query .= "post_category_id = '{$post_category_id}', ";
             $query .= "post_date = now(), ";
-            $query .= "post_author = '{$post_author}', ";
+            $query .= "post_user = '{$post_user}', ";
             $query .= "post_status = '{$post_status}', ";
             $query .= "post_tags = '{$post_tags}', ";
             $query .= "post_content = '{$post_content}', ";
@@ -74,6 +74,7 @@ while ($row = mysqli_fetch_assoc($select_query)) {
     </div>
     <div class="form-group">
         <select name="post_category_id" id="" class="form-control">
+
             <?php
             $query = "SELECT * from categories ";
             $select_query = mysqli_query($connection, $query);
@@ -84,15 +85,37 @@ while ($row = mysqli_fetch_assoc($select_query)) {
                 $cat_id = $row['cat_id'];
                 $cat_title = $row['cat_title'];
 
+
+            if ($cat_id == $post_category_id){
+                echo "<option selected value='{$cat_id}'>{$cat_title}</option>";
+            }else{
                 echo "<option value='{$cat_id}'>{$cat_title}</option>";
-            }
+            }      }
             ?>
         </select>
     </div>
     <div class="form-group">
-        <label for="post_author">Author</label>
-        <input type="text" name="post_author" class="form-control" value="<?php echo $post_author; ?>">
+        <label for="Users">Users</label>
+        <select name="post_user" id="" class="form-control">
+            <?php  echo "<option value='{$post_user}'>{$post_user}</option>";?>
+            <?php
+            $users_query = "SELECT * from users ";
+            $select_users = mysqli_query($connection, $users_query);
+
+            confirm($select_users);
+
+            while ($row = mysqli_fetch_assoc($select_users)) {
+                $user_id = $row['user_id'];
+                $username = $row['username'];
+                echo "<option value='{$username}'>{$username}</option>";
+            }
+            ?>
+        </select>
     </div>
+<!--    <div class="form-group">-->
+<!--        <label for="post_author">Author</label>-->
+<!--        <input type="text" name="post_author" class="form-control" value="--><?php //echo $post_author; ?><!--">-->
+<!--    </div>-->
     <div class="form-group">
         <img style="width: 120px;" src="../images/<?php echo $post_image; ?>" alt="">
         <input type="file" name="image">

@@ -1,4 +1,5 @@
 <?php
+include ("includes/delete_modal.php");
 if (isset($_POST['checkBoxArray'])) {
     foreach ($_POST['checkBoxArray'] as $postvalueId) {
 
@@ -37,7 +38,7 @@ if (isset($_POST['checkBoxArray'])) {
                     $post_id = $row['post_id'];
                     $post_category_id = $row['post_category_id'];
                     $post_title = $row['post_title'];
-                    $post_author = $row['post_author'];
+                    $post_author = $row['post_user'];
                     $post_date = $row['post_date'];
                     $post_image = $row['post_image'];
                     $post_content = $row['post_content'];
@@ -83,9 +84,9 @@ if (isset($_POST['checkBoxArray'])) {
     <tr>
         <th><input type="checkbox" id="selectAllBoxes"></th>
         <th>Id</th>
-        <th>category_id</th>
+        <th>Category</th>
         <th>Title</th>
-        <th>Author</th>
+        <th>User</th>
         <th>Date</th>
         <th>Image</th>
         <th>Content</th>
@@ -109,6 +110,7 @@ if (isset($_POST['checkBoxArray'])) {
         $post_category_id = $row['post_category_id'];
         $post_title = $row['post_title'];
         $post_author = $row['post_author'];
+        $post_user = $row['post_user'];
         $post_date = $row['post_date'];
         $post_image = $row['post_image'];
         $post_content = $row['post_content'];
@@ -131,7 +133,13 @@ if (isset($_POST['checkBoxArray'])) {
         }
         echo "<td>$cat_title</td>";
         echo "<td><a href='../post.php?p_id=$post_id' target='_blank'>$post_title</a></td>";
-        echo "<td>$post_author</td>";
+        if (isset($post_author) || !empty($post_author)){
+            echo "<td>$post_author</td>";
+        }elseif ( isset($post_user) || !empty($post_user)){
+            echo "<td>$post_user</td>";
+
+        }
+
         echo "<td>$post_date</td>";
         echo "<td><img src='../images/$post_image' alt='' style='width: 40px; height: 40px;'></td>";
         echo "<td>" . substr($post_content, 0, 10) ."..." ."</td>";
@@ -148,7 +156,9 @@ if (isset($_POST['checkBoxArray'])) {
         echo "<td>$post_view_count</td>";
         echo "<td><a href='../post.php?p_id={$post_id}' target='_blank'>View Post</a></td>";
         echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
-        echo "<td><a onclick=\"return confirm('Are you sure you want to delete this item?');\" href='posts.php?delete={$post_id}'>Delete</a></td>";
+        echo "<td><a rel='$post_id' href='javascript:void(0)' class='delete_link'>Delete</a></td>";
+
+//        echo "<td><a onclick=\"return confirm('Are you sure you want to delete this item?');\" href='posts.php?delete={$post_id}'>Delete</a></td>";
         echo "</tr>";
          }?>
     </tbody>
@@ -165,3 +175,18 @@ if (isset($_POST['checkBoxArray'])) {
     }
 ?>
 </form>
+
+
+
+<script>
+    $(document).ready(function(){
+       $(".delete_link").on('click', function(){
+          var id = $(this).attr("rel");
+          var delete_url = "posts.php?delete=" + id + "";
+
+          $(".modal_delete_link").attr("href", delete_url);
+          $("#myModal").modal('show');
+
+       });
+    });
+</script>

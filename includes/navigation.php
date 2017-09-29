@@ -17,19 +17,34 @@ session_start();
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
             <?php
-                $query = "SELECT * FROM categories";
-                $select_all_categories_query = mysqli_query($connection, $query);
+            $query = "SELECT * FROM categories";
+            $select_categories_sidebar = mysqli_query($connection, $query);
 
-                while ($row = mysqli_fetch_assoc($select_all_categories_query)){
-                   $cat_title =  $row['cat_title'];
-                    echo "<li><a href='#'>{$cat_title}</a></li>";
-                }
+
+
+            while ($row = mysqli_fetch_assoc($select_categories_sidebar)){
+                $cat_title =  $row['cat_title'];
+                $cat_id =  $row['cat_id'];
+
+                echo "<li><a href='category.php?category=$cat_id'>{$cat_title}</a></li>";
+            }
 
             ?>
 
                 <li>
-                    <a href="admin">Admwin</a>
+                    <a href="contact.php">Contact</a>
                 </li>
+
+
+                <li>
+                    <?php
+                    if (isset($_SESSION['user_role'])){
+                        echo "loggedn";
+                    }else {
+                        echo '<a href="admin">Admin</a>';
+                    }?>
+                </li>
+
                 <?php
                     if (isset($_SESSION['username'])){
                         if (isset($_GET['p_id'])){
