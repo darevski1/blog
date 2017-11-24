@@ -1,6 +1,6 @@
 <?php
 include ("includes/delete_modal.php");
-if (isset($_POST['checkBoxArray'])) {
+if (isset($_POST['checkBoxArray'])&& !empty($_POST['checkBoxArray'])) {
     foreach ($_POST['checkBoxArray'] as $postvalueId) {
 
         $bulk_options = $_POST['bulk_options'];
@@ -38,7 +38,8 @@ if (isset($_POST['checkBoxArray'])) {
                     $post_id = $row['post_id'];
                     $post_category_id = $row['post_category_id'];
                     $post_title = $row['post_title'];
-                    $post_author = $row['post_user'];
+                    $post_author = $row['post_author'];
+                    $post_user = $row['post_user'];
                     $post_date = $row['post_date'];
                     $post_image = $row['post_image'];
                     $post_content = $row['post_content'];
@@ -47,13 +48,10 @@ if (isset($_POST['checkBoxArray'])) {
                     $post_comment_count = $row['post_comment_count'];
 
                 }
-                $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status)";
-                $query .= "VALUES('{$post_category_id}', '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}')";
-
+                $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_user, post_date, post_image, post_content, post_tags, post_status)";
+                $query .= "VALUES('{$post_category_id}', '{$post_title}', '{$post_author}', '{$post_user}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}')";
                 $insert_query=mysqli_query($connection, $query);
-
                 $the_post_id = mysqli_insert_id($connection);
-
                 break;
             default:
                 echo "Error";
@@ -101,10 +99,13 @@ if (isset($_POST['checkBoxArray'])) {
     </thead>
     <tbody>
     <?php
-    $query = "SELECT * from posts";
+//    $query = "SELECT * from posts";
+    $query = "SELECT posts.post_id, posts.post_category_id, posts.post_title, posts.post_author, posts.post_user, posts.post_date, posts.post_image, posts.post_content,";
+    $query .="posts.post_tags, posts.post_status, posts.post_comment_count, posts.post_view_count, categories.cat_id, categories.cat_title";
+    $query .= " FROM posts ";
+    $query .= " LEFT JOIN categories ON posts.post_category_id = categories.cat_id ORDER by posts.post_id";
+
     $select_posts = mysqli_query($connection, $query);
-
-
     while($row = mysqli_fetch_assoc($select_posts)){
         $post_id = $row['post_id'];
         $post_category_id = $row['post_category_id'];
@@ -118,28 +119,29 @@ if (isset($_POST['checkBoxArray'])) {
         $post_status = $row['post_status'];
         $post_comment_count = $row['post_comment_count'];
         $post_view_count = $row['post_view_count'];
+        $category_id = $row['cat_id'];
+        $category_title = $row['cat_title'];
+
         echo "<tr>";
         ?>
         <td><input type='checkbox' name='checkBoxArray[]' class='checkBoxes' value='<?php echo $post_id; ?>'></td>
         <?php
         echo "<td>$post_id</td>";
 
-        $query = "SELECT * FROM categories WHERE cat_id = {$post_category_id }";
-        $select_categories_id = mysqli_query($connection, $query);
-        while ($row = mysqli_fetch_assoc($select_categories_id)) {
-
-            $cat_id = $row['cat_id'];
-            $cat_title = $row['cat_title'];
-        }
-        echo "<td>$cat_title</td>";
+//        $query = "SELECT * FROM categories WHERE cat_id = {$post_category_id }";
+//        $select_categories_id = mysqli_query($connection, $query);
+//        while ($row = mysqli_fetch_assoc($select_categories_id)) {
+//
+//            $cat_id = $row['cat_id'];
+//            $cat_title = $row['cat_title'];
+//        }
+        echo "<td>$category_title</td>";
         echo "<td><a href='../post.php?p_id=$post_id' target='_blank'>$post_title</a></td>";
-        if (isset($post_author) || !empty($post_author)){
+        if (isset($post_author) && !empty($post_author)){
             echo "<td>$post_author</td>";
-        }elseif ( isset($post_user) || !empty($post_user)){
+        }elseif( isset($post_user) && !empty($post_user)){
             echo "<td>$post_user</td>";
-
         }
-
         echo "<td>$post_date</td>";
         echo "<td><img src='../images/$post_image' alt='' style='width: 40px; height: 40px;'></td>";
         echo "<td>" . substr($post_content, 0, 10) ."..." ."</td>";

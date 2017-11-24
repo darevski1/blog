@@ -17,11 +17,12 @@
 
     if (isset($_POST['submit'])){
         $search = $_POST['search'];
+
         $query = "select * from posts WHERE post_tags LIKE '%$search'";
         $search_query=mysqli_query($connection, $query);
 
         if (!$search_query){
-            die("QUERY FAILED" . mysql_error($connection));
+            die("QUERY FAILED" . mysqli_error($connection));
         }
         $count = mysqli_num_rows($search_query);
         if ($count == 0){

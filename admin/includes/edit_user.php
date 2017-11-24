@@ -67,7 +67,7 @@ while ($row = mysqli_fetch_assoc($select_query)){
 //    header('Location: users.php');
 
         if ($update_user_query) {
-            header('Location: users.php');
+	        header("Location: category.php/");
             echo "sdfsdfds";
         }else{
             die("Error !!!!!!!!! " . mysqli_error($connection));
